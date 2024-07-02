@@ -1,11 +1,37 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import HomeScreen from "./App/screens/HomeScreen";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import CartScreen from "./App/screens/CartScreen";
 
 export default function App() {
   const [cartItems, setCartItems] = useState([{}]);
+
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const storedItems = await AsyncStorage.getItem("shoppingItems");
+        if (storedItems) {
+          setCartItems(JSON.parse(storedItems));
+        }
+      } catch (error) {
+        console.error("Failed to load items:", error);
+      }
+    };
+    loadItems();
+  }, []);
+
+  useEffect(() => {
+    const saveItems = async () => {
+      try {
+        await AsyncStorage.setItem("shoppingItems", JSON.stringify(cartItems));
+      } catch (error) {
+        console.error("Failed to save items:", error);
+      }
+    };
+    saveItems();
+  }, [cartItems]);
 
   const handleDelete = (id) => {
     const newCartItems = cartItems.filter((item) => item.id !== id);
