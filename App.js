@@ -11,7 +11,7 @@ export default function App() {
   };
   return (
     <View style={styles.container}>
-      {/* <HomeScreen handlePress={(item) => handlePressEvent(item)} /> */}
+      <HomeScreen handlePress={(item) => handlePressEvent(item)} />
     </View>
   );
 }
