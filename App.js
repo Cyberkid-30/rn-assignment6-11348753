@@ -7,7 +7,7 @@ export default function App() {
   const [cartItems, setCartItems] = useState([{}]);
 
   const handlePressEvent = (item) => {
-    // setCartItems([...cartItems, item]);
+    setCartItems([...cartItems, item]);
   };
   return (
     <View style={styles.container}>
