@@ -4,10 +4,7 @@ import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 function CartScreenCard({ item, onDelete }) {
   return (
     <View style={styles.cardContainer}>
-      <Image
-        style={{ height: "auto" }}
-        source={require("../assets/dress1.png")}
-      />
+      <Image style={{ height: "auto" }} source={item.image} />
       <View style={styles.cardContent}>
         <Text
           style={{ fontWeight: 500, fontSize: 18, textTransform: "uppercase" }}
