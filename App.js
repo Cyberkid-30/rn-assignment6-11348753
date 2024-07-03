@@ -1,12 +1,33 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./App/screens/HomeScreen";
-import { useState,useEffect } from "react";
 import CartScreen from "./App/screens/CartScreen";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const [cartItems, setCartItems] = useState([{}]);
+  const Tab = createBottomTabNavigator();
+
+  const TabNavigator = () => {
+    return (
+      <Tab.Navigator>
+        <Tab.Screen name="Home">
+          {() => <HomeScreen handlePress={(item) => handlePressEvent(item)} />}
+        </Tab.Screen>
+        <Tab.Screen name="Cart">
+          {() => (
+            <CartScreen
+              cartItems={cartItems}
+              onDelete={(id) => handleDelete(id)}
+            />
+          )}
+        </Tab.Screen>
+      </Tab.Navigator>
+    );
+  };
 
   useEffect(() => {
     const loadItems = async () => {
@@ -44,8 +65,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <HomeScreen handlePress={(item) => handlePressEvent(item)} />
-      {/* <CartScreen cartItems={cartItems} onDelete={(id) => handleDelete(id)} /> */}
+      <NavigationContainer>
+        <TabNavigator />
+      </NavigationContainer>
     </View>
   );
 }
@@ -56,7 +78,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 30,
     backgroundColor: "#fff",
-    paddingVertical: 20,
+    paddingTop: 20,
     paddingHorizontal: 10,
   },
 });

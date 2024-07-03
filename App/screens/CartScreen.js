@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import CartScreenCard from "../components/CartScreenCard";
 
 function CartScreen({ onDelete, cartItems }) {
@@ -13,17 +20,19 @@ function CartScreen({ onDelete, cartItems }) {
         />
       </View>
 
-      <View style={styles.cardContainer}>
+      <View>
         <Text style={styles.cardContainerText}>CHECKOUT</Text>
-        <View style={styles.cards}>
-          {cartItems.map((item) => (
+        <FlatList
+          data={cartItems}
+          renderItem={({ item }) => (
             <CartScreenCard
               item={item}
-              key={item.id}
               onDelete={(id) => onDelete(id)}
+              key={item.id}
             />
-          ))}
-        </View>
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
       <View style={styles.totalPrice}>
         <Text style={{ fontSize: 20, letterSpacing: 2 }}>EST.TOTAL</Text>
@@ -61,11 +70,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
   },
-  cards: {
-    width: "100%",
-    height: 560,
-  },
-  cardContainer: {},
   cardContainerText: {
     fontSize: 26,
     fontWeight: "500",
